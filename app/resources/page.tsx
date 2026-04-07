@@ -1,7 +1,7 @@
 "use client";
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
-import { Github, Send, ExternalLink, Calendar, Clock, Tag, Globe } from 'lucide-react';
+import { ArrowLeft, ExternalLink, Calendar, Clock, Tag } from 'lucide-react';
 
 interface Resource {
   id: string;
@@ -12,18 +12,22 @@ interface Resource {
   tags?: string[];
   date?: string;
   time?: string;
+  netdisk?: {
+    showQuark?: boolean;
+    showBaidu?: boolean;
+  };
 }
 
-interface ResourceWithClicks extends Resource {
+export default function ResourcesPage() {
+  interface ResourceWithClicks extends Resource {
   clicks: number;
 }
 
-export default function HomePage() {
-  const [visitCount, setVisitCount] = useState(0);
   const [resources, setResources] = useState<ResourceWithClicks[]>([]);
   const [loading, setLoading] = useState(true);
-  const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [visitCount, setVisitCount] = useState(0);
   const [sortBy, setSortBy] = useState<'upload' | 'clicks'>('upload');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const resourcesPerPage = 20;
@@ -67,13 +71,12 @@ export default function HomePage() {
   };
 
   // 过滤资源
-  const filteredResources = resources.filter(resource => {
+  const filteredResources = resources.filter(item => {
     if (!searchTerm) return true;
-    const searchLower = searchTerm.toLowerCase();
     return (
-      resource.title?.toLowerCase().includes(searchLower) ||
-      resource.desc?.toLowerCase().includes(searchLower) ||
-      resource.tags?.some(tag => tag.toLowerCase().includes(searchLower))
+      item.title.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.desc.toLowerCase().includes(searchTerm.toLowerCase()) ||
+      item.tags?.some(t => t.toLowerCase().includes(searchTerm.toLowerCase()))
     );
   }).sort((a, b) => {
     if (sortBy === 'clicks') {
@@ -127,9 +130,6 @@ export default function HomePage() {
             <button className="px-3 py-1.5 rounded-md border border-gray-300 bg-gray-50 text-gray-700 hover:bg-gray-100 transition-colors whitespace-nowrap shrink-0 w-full sm:w-auto text-sm">
               筛选
             </button>
-            <a href="/1.html" className="px-3 py-1.5 rounded-md bg-red-600 text-white hover:bg-red-700 transition-colors whitespace-nowrap shrink-0 w-full sm:w-auto text-sm">
-              跳转游戏
-            </a>
           </div>
           <div className="flex items-center justify-start gap-3 pt-1">
             <div className="flex items-center gap-2">
@@ -179,13 +179,13 @@ export default function HomePage() {
       <main className="max-w-7xl mx-auto px-6 md:px-8 pt-32 pb-8">
         <section>
           <div className="flex items-center justify-between mb-6">
-            <h2 className="text-xl font-bold">最新资源</h2>
-            <span className="text-sm text-gray-500">{filteredResources.length} 条记录</span>
+            <h2 className="text-xl font-bold">资源列表</h2>
+            <span className="text-sm text-gray-500">共 {filteredResources.length} 个资源</span>
           </div>
 
           {loading ? (
             <div className="space-y-6">
-              {[1, 2, 3, 4].map(i => (
+              {[1, 2, 3, 4, 5].map(i => (
                 <div key={`skeleton-${i}`} className="p-6 rounded-lg bg-white border border-gray-200 shadow-sm animate-pulse">
                   <div className="flex justify-between items-start mb-4">
                     <div className="w-3/4 h-6 bg-gray-200 rounded"></div>
@@ -230,7 +230,7 @@ export default function HomePage() {
                     </span>
                   </div>
                   <div className="flex gap-3 mt-4 border-t border-gray-100 pt-4 justify-end">
-                    {resource.quarkLink && (
+                    {resource.quarkLink && (resource.netdisk?.showQuark !== false) && (
                       <a 
                         href={resource.quarkLink} 
                         target="_blank" 
@@ -241,7 +241,7 @@ export default function HomePage() {
                         🔴 夸克
                       </a>
                     )}
-                    {resource.baiduLink && (
+                    {resource.baiduLink && (resource.netdisk?.showBaidu !== false) && (
                       <a 
                         href={resource.baiduLink} 
                         target="_blank" 

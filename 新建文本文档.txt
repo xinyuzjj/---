@@ -1,0 +1,1 @@
+streamlit run manage_gui.py
