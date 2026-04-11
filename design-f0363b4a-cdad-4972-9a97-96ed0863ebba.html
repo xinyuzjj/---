@@ -1,0 +1,521 @@
+<html lang="en" vid="0"><head vid="1">
+    <meta charset="UTF-8" vid="2">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" vid="3">
+    <title vid="4">Editorial Loader</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" vid="5">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin="" vid="6">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500&amp;family=Newsreader:ital,opsz,wght@0,6..72,200..800;1,6..72,200..800&amp;display=swap" rel="stylesheet" vid="7">
+    
+    <style vid="8">
+        :root {
+            --bg-left: #E4E4E4;
+            --text-dark: #111111;
+            --accent-red: #E32924;
+            --font-display: 'Newsreader', serif;
+            --font-mono: 'Inter', sans-serif;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            cursor: none; 
+        }
+
+        body {
+            background-color: #050505; 
+            color: var(--text-dark);
+            overflow: hidden;
+            width: 100vw;
+            height: 100vh;
+            -webkit-font-smoothing: antialiased;
+            -moz-osx-font-smoothing: grayscale;
+        }
+
+        
+        .cursor {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 8px;
+            height: 8px;
+            background-color: var(--text-dark);
+            border-radius: 50%;
+            pointer-events: none;
+            z-index: 9999;
+            transform: translate(-50%, -50%);
+            mix-blend-mode: difference;
+        }
+
+        
+        .loader-wrapper {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            z-index: 100;
+        }
+
+        
+        .pane-left {
+            width: 50vw;
+            height: 100vh;
+            background-color: var(--bg-left);
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            will-change: transform;
+            border-right: 1px solid rgba(0,0,0,0.05);
+        }
+
+        
+        #noise-canvas {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            z-index: 1;
+            pointer-events: none;
+            opacity: 0.6; 
+        }
+
+        .left-content {
+            position: relative;
+            z-index: 2;
+            text-align: center;
+        }
+
+        .counter-container {
+            position: relative;
+            display: inline-block;
+        }
+
+        .counter-val {
+            font-family: var(--font-display);
+            font-size: 14vw;
+            font-weight: 300;
+            line-height: 0.8;
+            letter-spacing: -0.04em;
+            color: var(--text-dark);
+            position: relative;
+            z-index: 3;
+        }
+
+        
+        .counter-ghost {
+            font-family: var(--font-display);
+            font-size: 14vw;
+            font-weight: 300;
+            line-height: 0.8;
+            letter-spacing: -0.04em;
+            color: #ffffff;
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-48%, -52%); 
+            z-index: 2;
+            filter: blur(8px);
+            opacity: 0.8;
+            pointer-events: none;
+            mix-blend-mode: overlay;
+        }
+
+        .loading-text {
+            font-family: var(--font-display);
+            font-size: 3.5vw;
+            font-style: italic;
+            font-weight: 300;
+            margin-top: -1vw;
+            letter-spacing: -0.01em;
+        }
+
+        .left-footer {
+            position: absolute;
+            bottom: 2rem;
+            left: 2rem;
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            z-index: 2;
+        }
+
+        .arrow-down {
+            font-family: var(--font-mono);
+            font-size: 0.8rem;
+        }
+
+        .footer-quote {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: rgba(17, 17, 17, 0.6);
+            max-width: 300px;
+        }
+
+        
+        .pane-right {
+            width: 50vw;
+            height: 100vh;
+            position: relative;
+            overflow: hidden;
+            will-change: transform;
+            background: #111;
+        }
+
+        .bg-image {
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            filter: grayscale(100%) contrast(1.1) brightness(0.8);
+            transform: scale(1.05); 
+        }
+
+        .top-nav {
+            position: absolute;
+            top: 2rem;
+            right: 2rem;
+            display: flex;
+            gap: 1.5rem;
+            z-index: 10;
+        }
+
+        .top-nav span {
+            font-family: var(--font-mono);
+            font-size: 0.55rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: #fff;
+        }
+
+        
+        .red-block-container {
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            transform: translate(-40%, -50%); 
+            width: 26vw;
+            height: 38vw; 
+            z-index: 5;
+            overflow: hidden;
+        }
+
+        .red-block {
+            width: 100%;
+            height: 100%;
+            background-color: var(--accent-red);
+            position: relative;
+            padding: 1.5rem;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+            
+            transform-origin: bottom center;
+            transform: scaleY(0); 
+        }
+
+        .red-header {
+            display: flex;
+            justify-content: space-between;
+            font-family: var(--font-mono);
+            font-size: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.1em;
+            color: var(--text-dark);
+        }
+
+        .red-center {
+            text-align: center;
+            font-family: var(--font-mono);
+            font-size: 0.5rem;
+            text-transform: uppercase;
+            letter-spacing: 0.15em;
+            color: var(--text-dark);
+            line-height: 1.6;
+        }
+
+        .red-footer {
+            font-family: var(--font-display);
+            font-size: 4vw;
+            font-weight: 400;
+            letter-spacing: -0.02em;
+            color: var(--text-dark);
+            line-height: 0.9;
+        }
+
+        
+        .main-content {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 1;
+            color: #fff;
+            font-family: var(--font-display);
+            font-size: 2vw;
+            opacity: 0;
+        }
+    </style>
+</head>
+<body vid="9">
+
+    <div class="cursor" id="cursor" vid="10"></div>
+
+    
+    <div class="main-content" vid="11">
+        <div vid="12">Site Content Unlocked.</div>
+    </div>
+
+    
+    <div class="loader-wrapper" vid="13">
+        
+        
+        <div class="pane-left" vid="14">
+            <canvas id="noise-canvas" vid="15"></canvas>
+            
+            <div class="left-content" vid="16">
+                <div class="counter-container" vid="17">
+                    <div class="counter-ghost" vid="18">0</div>
+                    <div class="counter-val" vid="19">0</div>
+                </div>
+                <div class="loading-text" vid="20">Individual lives.</div>
+            </div>
+
+            <div class="left-footer" vid="21">
+                <div class="arrow-down" vid="22">↓</div>
+                <div class="footer-quote" vid="23">"The realisation that each passerby is living a life as vivid and complex as your own"</div>
+            </div>
+        </div>
+
+        
+        <div class="pane-right" vid="24">
+            
+            <img src="https://images.pexels.com/photos/1122413/pexels-photo-1122413.jpeg?auto=compress&amp;cs=tinysrgb&amp;w=2000" alt="Architecture" class="bg-image" vid="25">
+            
+            <div class="top-nav" vid="26">
+                <span vid="27">Instagram</span>
+                <span vid="28">Twitter</span>
+                <span vid="29">Youtube</span>
+                <span vid="30">Pinterest</span>
+            </div>
+
+            <div class="red-block-container" vid="31">
+                <div class="red-block" vid="32">
+                    <div class="red-header" vid="33">
+                        <span vid="34">SYS</span>
+                        <span class="date-stamp" vid="35"></span>
+                    </div>
+                    
+                    <div class="red-center" vid="36">
+                        "ASSEMBLING DATA"<br vid="37">
+                        BY SYSTEM PROCESS
+                    </div>
+
+                    <div class="red-footer" vid="38">
+                        Initializing
+                    </div>
+                </div>
+            </div>
+        </div>
+
+    </div>
+
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js" vid="39"></script>
+    
+    <script vid="40">
+        
+        const cursor = document.getElementById('cursor');
+        document.addEventListener('mousemove', (e) => {
+            cursor.style.left = e.clientX + 'px';
+            cursor.style.top = e.clientY + 'px';
+        });
+
+        
+        const dateSpan = document.querySelector('.date-stamp');
+        const now = new Date();
+        const options = { day: 'numeric', month: 'long', year: 'numeric' };
+        dateSpan.textContent = now.toLocaleDateString('en-GB', options).toUpperCase();
+
+        
+        const canvas = document.getElementById('noise-canvas');
+        const gl = canvas.getContext('webgl');
+
+        if (gl) {
+            function resize() {
+                canvas.width = canvas.offsetWidth;
+                canvas.height = canvas.offsetHeight;
+                gl.viewport(0, 0, canvas.width, canvas.height);
+            }
+            window.addEventListener('resize', resize);
+            resize();
+
+            const vsSource = `
+                attribute vec2 position;
+                void main() {
+                    gl_Position = vec4(position, 0.0, 1.0);
+                }
+            `;
+
+            
+            const fsSource = `
+                precision mediump float;
+                uniform vec2 u_resolution;
+                uniform float u_time;
+
+                float random(vec2 st) {
+                    return fract(sin(dot(st.xy, vec2(12.9898,78.233))) * 43758.5453123);
+                }
+
+                void main() {
+                    vec2 st = gl_FragCoord.xy/u_resolution.xy;
+                    // Add time to make it dynamic, scale st for finer grain
+                    float noise = random(st * 800.0 + u_time);
+                    
+                    // Darken the noise and mix it with a transparent base
+                    // The CSS background color handles the base #E4E4E4
+                    vec3 noiseColor = vec3(0.1); 
+                    gl_FragColor = vec4(noiseColor, noise * 0.15); 
+                }
+            `;
+
+            function createShader(gl, type, source) {
+                const shader = gl.createShader(type);
+                gl.shaderSource(shader, source);
+                gl.compileShader(shader);
+                return shader;
+            }
+
+            const vertexShader = createShader(gl, gl.VERTEX_SHADER, vsSource);
+            const fragmentShader = createShader(gl, gl.FRAGMENT_SHADER, fsSource);
+
+            const program = gl.createProgram();
+            gl.attachShader(program, vertexShader);
+            gl.attachShader(program, fragmentShader);
+            gl.linkProgram(program);
+            gl.useProgram(program);
+
+            const positionLocation = gl.getAttribLocation(program, "position");
+            const buffer = gl.createBuffer();
+            gl.bindBuffer(gl.ARRAY_BUFFER, buffer);
+            gl.bufferData(gl.ARRAY_BUFFER, new Float32Array([
+                -1.0, -1.0,  1.0, -1.0, -1.0,  1.0,
+                -1.0,  1.0,  1.0, -1.0,  1.0,  1.0
+            ]), gl.STATIC_DRAW);
+
+            gl.enableVertexAttribArray(positionLocation);
+            gl.vertexAttribPointer(positionLocation, 2, gl.FLOAT, false, 0, 0);
+
+            const resolutionLocation = gl.getUniformLocation(program, "u_resolution");
+            const timeLocation = gl.getUniformLocation(program, "u_time");
+
+            function renderNoise(time) {
+                gl.uniform2f(resolutionLocation, canvas.width, canvas.height);
+                gl.uniform1f(timeLocation, time * 0.001);
+                gl.drawArrays(gl.TRIANGLES, 0, 6);
+                requestAnimationFrame(renderNoise);
+            }
+            requestAnimationFrame(renderNoise);
+        }
+
+        
+        
+        const counterVal = document.querySelector('.counter-val');
+        const counterGhost = document.querySelector('.counter-ghost');
+        const loadingText = document.querySelector('.loading-text');
+        const bgImage = document.querySelector('.bg-image');
+        
+        
+        const phrases = [
+            "And what's surprising...",
+            "about these systems,",
+            "is we get faces.",
+            "Individual lives."
+        ];
+
+        let progress = { value: 0 };
+        
+        const tl = gsap.timeline();
+
+        
+        gsap.to(bgImage, {
+            scale: 1,
+            duration: 5,
+            ease: "power1.out"
+        });
+
+        
+        tl.to(progress, {
+            value: 100,
+            duration: 4.5,
+            ease: "expo.inOut",
+            onUpdate: () => {
+                let currentVal = Math.floor(progress.value);
+                counterVal.textContent = currentVal;
+                counterGhost.textContent = currentVal;
+                
+                
+                gsap.set(counterGhost, {
+                    x: Math.sin(progress.value * 0.1) * 10,
+                    y: Math.cos(progress.value * 0.1) * 5,
+                    opacity: 0.5 + (Math.sin(progress.value * 0.05) * 0.3)
+                });
+
+                
+                if(currentVal < 25) loadingText.textContent = phrases[0];
+                else if(currentVal < 50) loadingText.textContent = phrases[1];
+                else if(currentVal < 85) loadingText.textContent = phrases[2];
+                else loadingText.textContent = phrases[3];
+            }
+        }, 0);
+
+        
+        tl.to('.red-block', {
+            scaleY: 1,
+            duration: 4.5,
+            ease: "expo.inOut"
+        }, 0);
+
+        
+        tl.to(['.counter-container', '.loading-text', '.left-footer', '.red-block-container', '.top-nav'], {
+            opacity: 0,
+            y: -20,
+            duration: 0.8,
+            ease: "power2.inOut",
+            stagger: 0.05
+        }, "+=0.5"); 
+
+        tl.to('.pane-left', {
+            x: '-100%',
+            duration: 1.2,
+            ease: "power4.inOut"
+        }, "-=0.2");
+
+        tl.to('.pane-right', {
+            x: '100%',
+            duration: 1.2,
+            ease: "power4.inOut"
+        }, "<");
+
+        
+        tl.to('.main-content', {
+            opacity: 1,
+            duration: 1,
+            ease: "power2.out"
+        }, "-=0.5");
+
+    </script>
+
+</body></html>
