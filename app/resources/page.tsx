@@ -32,42 +32,68 @@ export default function ResourcesPage() {
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
   const resourcesPerPage = 20;
 
+  // 从localStorage获取点击数
+  const getClicksFromLocalStorage = (): Record<string, number> => {
+    const stored = localStorage.getItem('resourceClicks');
+    return stored ? JSON.parse(stored) : {};
+  };
+
+  // 保存点击数到localStorage
+  const saveClicksToLocalStorage = (clicks: Record<string, number>) => {
+    localStorage.setItem('resourceClicks', JSON.stringify(clicks));
+  };
+
+  // 从localStorage获取访问次数
+  const getVisitCountFromLocalStorage = (): number => {
+    const stored = localStorage.getItem('visitCount');
+    return stored ? parseInt(stored) : 0;
+  };
+
+  // 保存访问次数到localStorage
+  const saveVisitCountToLocalStorage = (count: number) => {
+    localStorage.setItem('visitCount', count.toString());
+  };
+
   useEffect(() => {
-    fetch('/api/visit').then(res => res.json()).then(data => setVisitCount(data.count));
+    // 增加访问次数
+    const currentCount = getVisitCountFromLocalStorage() + 1;
+    setVisitCount(currentCount);
+    saveVisitCountToLocalStorage(currentCount);
   }, []);
 
   useEffect(() => {
-    // 先获取资源数据
-    fetch('/api/resources').then(res => res.json()).then(data => {
-      // 然后获取所有资源的点击数
-      fetch('/api/resource-click').then(res => res.json()).then(clicksData => {
+    // 从public目录获取资源数据
+    fetch('/resources.json')
+      .then(res => res.json())
+      .then(data => {
+        const clicksData = getClicksFromLocalStorage();
         const resourcesWithClicks = data.map((resource: Resource) => ({
           ...resource,
-          clicks: clicksData[resource.id] || 0 // 从API获取点击量，默认为0
+          clicks: clicksData[resource.id] || 0 // 从localStorage获取点击量，默认为0
         }));
         setResources(resourcesWithClicks);
         setLoading(false);
+      })
+      .catch(error => {
+        console.error('Error fetching resources:', error);
+        setLoading(false);
       });
-    });
   }, []);
 
   // 处理按钮点击，增加点击量
   const handleButtonClick = (id: string) => {
-    // 调用API增加点击数
-    fetch('/api/resource-click', {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({ resourceId: id })
-    }).then(res => res.json()).then(data => {
-      // 更新本地状态
-      setResources(prevResources =>
-        prevResources.map(resource =>
-          resource.id === id ? { ...resource, clicks: data.clicks } : resource
-        )
-      );
-    });
+    // 获取当前点击数
+    const clicksData = getClicksFromLocalStorage();
+    // 增加点击数
+    clicksData[id] = (clicksData[id] || 0) + 1;
+    // 保存到localStorage
+    saveClicksToLocalStorage(clicksData);
+    // 更新本地状态
+    setResources(prevResources =>
+      prevResources.map(resource =>
+        resource.id === id ? { ...resource, clicks: clicksData[id] } : resource
+      )
+    );
   };
 
   // 过滤资源
