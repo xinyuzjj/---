@@ -402,15 +402,6 @@
     ]
   },
   {
-    "id": "40",
-    "title": "网络安全！！",
-    "desc": "第一款：https://github.com/euphrat1ca/Security-List?tab=readme-ov-file，第二款：https://github.com/LasCC/HackTools",
-    "url": "https://github.com/LasCC/HackTools",
-    "tags": [
-      "github"
-    ]
-  },
-  {
     "id": "41",
     "title": "每天拥有一款高质量开源项目-第二十七期：Pixelle-Video ",
     "desc": "一款ai视频生成器",
@@ -419,7 +410,8 @@
     "tags": [
       "github"
     ]
-  },
+  }
+,
   {
     "id": "42",
     "title": "每天拥有一款高质量开源项目-第二十八期：fuwari",
@@ -611,7 +603,7 @@
     ]
   },
   {
-    "id": "67",
+    "id": "40",
     "title": "每天拥有一款高质量开源项目-第四十七期：桃花源",
     "desc": "一个开源文字经营游戏",
     "baiduLink": " https://pan.baidu.com/s/1RL8kWFCX7uBei9YNRup8Fw?pwd=w3tq",
@@ -676,6 +668,43 @@
     "tags": [
       "github"
     ]
+  },
+  {
+    "id": "67",
+    "title": "每天拥有一款高质量开源项目-第五十七期：MRRSS",
+    "desc": "一个rss阅读器",
+    "baiduLink": "https://pan.baidu.com/s/1JtfGVCGNm1AzySBpScF36g?pwd=fdi3",
+     "quarkLink": "https://pan.quark.cn/s/9195aee19c5d?pwd=AEqy",
+    "tags": [
+      "github"
+    ]
+  },{
+    "id": "68",
+    "title": "每天拥有一款高质量开源项目-第五十八期：PromptHub ",
+    "desc": "一个提示词工具箱",
+    "baiduLink": "  https://pan.baidu.com/s/1HHd2PUwSKIAr55XwdGBSGw?pwd=dvvb",
+     "quarkLink": "https://pan.quark.cn/s/3a714aab62cd?pwd=rhTa",
+    "tags": [
+      "github"
+    ]
+  },{
+    "id": "69",
+    "title": "每天拥有一款高质量开源项目-第五十九期：Recordly ",
+    "desc": "一个免费开源录屏软件",
+    "baiduLink": " https://pan.baidu.com/s/1Anx9cr7CaEGuK89P9mNACg?pwd=pqc6",
+     "quarkLink": "https://pan.quark.cn/s/2c6471561c9d?pwd=xM1i",
+    "tags": [
+      "github"
+    ]
+  },{
+    "id": "70",
+    "title": "每天拥有一款高质量开源项目-第六十一期：motrix-next ",
+    "desc": "一个bt和种子下载器",
+    "baiduLink": " https://pan.baidu.com/s/1TYyJ8H8uoKYaRR1hSxsK3Q?pwd=9t55",
+    "tags": [
+      "github"
+    ]
   }
+  
   
 ]
