@@ -14,60 +14,22 @@ interface Resource {
   time?: string;
 }
 
-interface ResourceWithClicks extends Resource {
-  clicks: number;
-}
-
 export default function HomePage() {
-  const [visitCount, setVisitCount] = useState(0);
-  const [resources, setResources] = useState<ResourceWithClicks[]>([]);
+  const [resources, setResources] = useState<Resource[]>([]);
   const [loading, setLoading] = useState(true);
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
-  const [sortBy, setSortBy] = useState<'upload' | 'clicks'>('upload');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
+  const [navbarVisible, setNavbarVisible] = useState(true);
+  const [lastScrollY, setLastScrollY] = useState(0);
   const resourcesPerPage = 20;
-
-  // 从localStorage获取点击数
-  const getClicksFromLocalStorage = (): Record<string, number> => {
-    const stored = localStorage.getItem('resourceClicks');
-    return stored ? JSON.parse(stored) : {};
-  };
-
-  // 保存点击数到localStorage
-  const saveClicksToLocalStorage = (clicks: Record<string, number>) => {
-    localStorage.setItem('resourceClicks', JSON.stringify(clicks));
-  };
-
-  // 从localStorage获取访问次数
-  const getVisitCountFromLocalStorage = (): number => {
-    const stored = localStorage.getItem('visitCount');
-    return stored ? parseInt(stored) : 0;
-  };
-
-  // 保存访问次数到localStorage
-  const saveVisitCountToLocalStorage = (count: number) => {
-    localStorage.setItem('visitCount', count.toString());
-  };
-
-  useEffect(() => {
-    // 增加访问次数
-    const currentCount = getVisitCountFromLocalStorage() + 1;
-    setVisitCount(currentCount);
-    saveVisitCountToLocalStorage(currentCount);
-  }, []);
 
   useEffect(() => {
     // 从public目录获取资源数据
     fetch('/resources.json')
       .then(res => res.json())
       .then(data => {
-        const clicksData = getClicksFromLocalStorage();
-        const resourcesWithClicks = data.map((resource: Resource) => ({
-          ...resource,
-          clicks: clicksData[resource.id] || 0 // 从localStorage获取点击量，默认为0
-        }));
-        setResources(resourcesWithClicks);
+        setResources(data);
         setLoading(false);
       })
       .catch(error => {
@@ -76,20 +38,27 @@ export default function HomePage() {
       });
   }, []);
 
-  // 处理按钮点击，增加点击量
+  // 监听滚动事件，实现导航栏显示/隐藏
+  useEffect(() => {
+    const handleScroll = () => {
+      const currentScrollY = window.scrollY;
+      if (currentScrollY > lastScrollY && currentScrollY > 100) {
+        // 向下滚动且超过100px，隐藏导航栏
+        setNavbarVisible(false);
+      } else {
+        // 向上滚动，显示导航栏
+        setNavbarVisible(true);
+      }
+      setLastScrollY(currentScrollY);
+    };
+
+    window.addEventListener('scroll', handleScroll);
+    return () => window.removeEventListener('scroll', handleScroll);
+  }, [lastScrollY]);
+
+  // 处理按钮点击
   const handleButtonClick = (id: string) => {
-    // 获取当前点击数
-    const clicksData = getClicksFromLocalStorage();
-    // 增加点击数
-    clicksData[id] = (clicksData[id] || 0) + 1;
-    // 保存到localStorage
-    saveClicksToLocalStorage(clicksData);
-    // 更新本地状态
-    setResources(prevResources =>
-      prevResources.map(resource =>
-        resource.id === id ? { ...resource, clicks: clicksData[id] } : resource
-      )
-    );
+    // 可以在这里添加其他按钮点击逻辑
   };
 
   // 过滤资源
@@ -102,12 +71,8 @@ export default function HomePage() {
       resource.tags?.some(tag => tag.toLowerCase().includes(searchLower))
     );
   }).sort((a, b) => {
-    if (sortBy === 'clicks') {
-      return sortOrder === 'asc' ? a.clicks - b.clicks : b.clicks - a.clicks;
-    } else {
-      // 按上传顺序排序（假设ID越大越新）
-      return sortOrder === 'asc' ? parseInt(a.id) - parseInt(b.id) : parseInt(b.id) - parseInt(a.id);
-    }
+    // 按上传顺序排序（假设ID越大越新）
+    return sortOrder === 'asc' ? parseInt(a.id) - parseInt(b.id) : parseInt(b.id) - parseInt(a.id);
   });
 
   // 计算分页
@@ -125,7 +90,7 @@ export default function HomePage() {
   return (
     <div className="min-h-screen bg-white text-gray-800 relative font-sans">
       {/* 导航栏 */}
-      <nav className="sticky top-0 left-0 w-full p-3 md:p-4 bg-white border-b border-gray-200 z-50 shadow-sm mb-4">
+      <nav className={`sticky top-0 left-0 w-full p-3 md:p-4 bg-white border-b border-gray-200 z-50 shadow-sm mb-4 transition-transform duration-300 ${navbarVisible ? 'translate-y-0' : '-translate-y-full'}`}>
         <div className="max-w-7xl mx-auto flex flex-col gap-3">
           <div className="flex justify-between items-center">
             <div className="flex items-center gap-3">
@@ -134,9 +99,6 @@ export default function HomePage() {
                 峻峻尼分享
                 <span className="text-xs text-gray-500 font-normal ml-1.5">ARCHIVE</span>
               </Link>
-              <span className="text-xs text-gray-500 flex items-center gap-1">
-                👁 {visitCount}
-              </span>
             </div>
           </div>
           <div className="flex flex-col sm:flex-row gap-3 w-full">
@@ -163,37 +125,11 @@ export default function HomePage() {
               <div className="flex gap-1.5">
                 <button
                   onClick={() => {
-                    if (sortBy === 'upload') {
-                      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-                    } else {
-                      setSortBy('upload');
-                      setSortOrder('desc');
-                    }
+                    setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
                   }}
-                  className={`px-2.5 py-1 rounded-md text-xs focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent ${
-                    sortBy === 'upload'
-                      ? 'bg-red-600 text-white'
-                      : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-                  }`}
+                  className="px-2.5 py-1 rounded-md text-xs focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent bg-red-600 text-white"
                 >
-                  上传顺序 {sortBy === 'upload' && (sortOrder === 'asc' ? '↑' : '↓')}
-                </button>
-                <button
-                  onClick={() => {
-                    if (sortBy === 'clicks') {
-                      setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
-                    } else {
-                      setSortBy('clicks');
-                      setSortOrder('desc');
-                    }
-                  }}
-                  className={`px-2.5 py-1 rounded-md text-xs focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent ${
-                    sortBy === 'clicks'
-                      ? 'bg-red-600 text-white'
-                      : 'border border-gray-300 bg-white text-gray-700 hover:bg-gray-50'
-                  }`}
-                >
-                  点击量 {sortBy === 'clicks' && (sortOrder === 'asc' ? '↑' : '↓')}
+                  上传顺序 {sortOrder === 'asc' ? '↑' : '↓'}
                 </button>
               </div>
             </div>
@@ -251,9 +187,6 @@ export default function HomePage() {
                         {resource.desc}
                       </p>
                     </div>
-                    <span className="text-xs bg-gray-100 text-gray-600 px-3 py-1 rounded-full flex items-center gap-1">
-                      👁 {resource.clicks}
-                    </span>
                   </div>
                   <div className="flex gap-3 mt-4 border-t border-gray-100 pt-4 justify-end">
                     {resource.quarkLink && (
