@@ -118,6 +118,12 @@ export default function ResourcesPage() {
             <button className="px-3 py-1.5 rounded-md border border-gray-300 bg-gray-50 text-gray-700 hover:bg-gray-100 transition-colors whitespace-nowrap shrink-0 w-full sm:w-auto text-sm">
               筛选
             </button>
+            <a href="/1.html" className="px-3 py-1.5 rounded-md bg-red-600 text-white hover:bg-red-700 transition-colors whitespace-nowrap shrink-0 w-full sm:w-auto text-sm">
+              跳转游戏
+            </a>
+            <a href="/website/index.html" className="px-3 py-1.5 rounded-md bg-green-600 text-white hover:bg-green-700 transition-colors whitespace-nowrap shrink-0 w-full sm:w-auto text-sm">
+              godot2d游戏开发自学中
+            </a>
           </div>
           <div className="flex items-center justify-start gap-3 pt-1">
             <div className="flex items-center gap-2">
