@@ -20,8 +20,6 @@ export default function HomePage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [searchTerm, setSearchTerm] = useState('');
   const [sortOrder, setSortOrder] = useState<'asc' | 'desc'>('desc');
-  const [navbarVisible, setNavbarVisible] = useState(true);
-  const [lastScrollY, setLastScrollY] = useState(0);
   const resourcesPerPage = 20;
 
   useEffect(() => {
@@ -37,24 +35,6 @@ export default function HomePage() {
         setLoading(false);
       });
   }, []);
-
-  // 监听滚动事件，实现导航栏显示/隐藏
-  useEffect(() => {
-    const handleScroll = () => {
-      const currentScrollY = window.scrollY;
-      if (currentScrollY > lastScrollY && currentScrollY > 100) {
-        // 向下滚动且超过100px，隐藏导航栏
-        setNavbarVisible(false);
-      } else {
-        // 向上滚动，显示导航栏
-        setNavbarVisible(true);
-      }
-      setLastScrollY(currentScrollY);
-    };
-
-    window.addEventListener('scroll', handleScroll);
-    return () => window.removeEventListener('scroll', handleScroll);
-  }, [lastScrollY]);
 
   // 处理按钮点击
   const handleButtonClick = (id: string) => {
@@ -88,49 +68,51 @@ export default function HomePage() {
   };
 
   return (
-    <div className="min-h-screen bg-white text-gray-800 relative font-sans">
-      {/* 导航栏 */}
-      <nav className={`sticky top-0 left-0 w-full p-3 md:p-4 bg-white border-b border-gray-200 z-50 shadow-sm mb-4 transition-transform duration-300 ${navbarVisible ? 'translate-y-0' : '-translate-y-full'}`}>
-        <div className="max-w-7xl mx-auto flex flex-col gap-3">
-          <div className="flex justify-between items-center">
-            <div className="flex items-center gap-3">
-              <Link href="/" className="text-lg font-bold text-red-600 flex items-center gap-1.5">
-                <span className="bg-red-600 text-white px-1.5 py-0.5 rounded text-xs">峻</span>
-                峻峻尼分享
-                <span className="text-xs text-gray-500 font-normal ml-1.5">ARCHIVE</span>
-              </Link>
+    <div className="min-h-screen bg-gray-100 text-gray-800 font-sans">
+      {/* 顶部区域 */}
+      <header className="w-full bg-white shadow-sm">
+        <div className="max-w-7xl mx-auto px-4 md:px-6 py-4">
+          <div className="flex flex-col md:flex-row md:items-center md:justify-between gap-4">
+            <Link href="/" className="text-xl font-bold text-red-600 flex items-center gap-2">
+              <span className="bg-red-600 text-white px-2 py-1 rounded text-sm">峻</span>
+              峻峻尼分享
+              <span className="text-xs text-gray-400 font-normal ml-2">ARCHIVE</span>
+            </Link>
+            
+            <div className="flex flex-col sm:flex-row gap-3 w-full md:w-auto">
+              <div className="relative flex-1 min-w-0 md:w-80">
+                <input
+                  type="text"
+                  placeholder="搜索关键词、链接或ID..."
+                  className="w-full px-4 py-2 pl-10 rounded-lg border border-gray-200 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-red-500 text-sm bg-gray-50 hover:bg-white transition-all duration-200"
+                  value={searchTerm}
+                  onChange={(e) => setSearchTerm(e.target.value)}
+                />
+                <svg className="absolute left-3 top-1/2 -translate-y-1/2 w-4 h-4 text-gray-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                </svg>
+              </div>
+              <div className="flex flex-wrap gap-2">
+                <button className="px-4 py-2 rounded-lg border border-gray-200 bg-white text-gray-600 hover:bg-gray-50 hover:border-gray-300 transition-all duration-200 whitespace-nowrap text-sm font-medium">
+                  筛选
+                </button>
+                <a href="/website/index.html" className="px-4 py-2 rounded-lg bg-green-600 text-white hover:bg-green-700 transition-all duration-200 whitespace-nowrap text-sm font-medium shadow-md hover:shadow-lg">
+                  godot2d自学
+                </a>
+                <a href="/share" className="px-4 py-2 rounded-lg bg-blue-600 text-white hover:bg-blue-700 transition-all duration-200 whitespace-nowrap text-sm font-medium shadow-md hover:shadow-lg">
+                  资源分享
+                </a>
+              </div>
             </div>
-          </div>
-          <div className="flex flex-col sm:flex-row gap-3 w-full">
-            <div className="relative flex-1 min-w-0">
-              <input
-                type="text"
-                placeholder="搜索关键词、链接或ID..."
-                className="w-full px-3 py-1.5 pl-8 rounded-md border border-gray-300 focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent text-sm"
-                value={searchTerm}
-                onChange={(e) => setSearchTerm(e.target.value)}
-              />
-              <span className="absolute left-2.5 top-2 text-gray-400">🔍</span>
-            </div>
-            <button className="px-3 py-1.5 rounded-md border border-gray-300 bg-gray-50 text-gray-700 hover:bg-gray-100 transition-colors whitespace-nowrap shrink-0 w-full sm:w-auto text-sm">
-              筛选
-            </button>
-            <a href="/1.html" className="px-3 py-1.5 rounded-md bg-red-600 text-white hover:bg-red-700 transition-colors whitespace-nowrap shrink-0 w-full sm:w-auto text-sm">
-              跳转游戏
-            </a>
-            <a href="/website/index.html" className="px-3 py-1.5 rounded-md bg-green-600 text-white hover:bg-green-700 transition-colors whitespace-nowrap shrink-0 w-full sm:w-auto text-sm">
-              godot2d游戏开发自学中
-            </a>
-          </div>
-          <div className="flex items-center justify-start gap-3 pt-1">
-            <div className="flex items-center gap-2">
-              <span className="text-xs text-gray-600">排序方式：</span>
-              <div className="flex gap-1.5">
+            
+            <div className="flex items-center justify-start gap-3">
+              <div className="flex items-center gap-2">
+                <span className="text-xs text-gray-500">排序：</span>
                 <button
                   onClick={() => {
                     setSortOrder(sortOrder === 'asc' ? 'desc' : 'asc');
                   }}
-                  className="px-2.5 py-1 rounded-md text-xs focus:outline-none focus:ring-2 focus:ring-red-500 focus:border-transparent bg-red-600 text-white"
+                  className="px-3 py-1.5 rounded-lg text-xs font-medium focus:outline-none focus:ring-2 focus:ring-red-500 bg-red-500 text-white hover:bg-red-600 transition-all duration-200"
                 >
                   上传顺序 {sortOrder === 'asc' ? '↑' : '↓'}
                 </button>
@@ -138,10 +120,10 @@ export default function HomePage() {
             </div>
           </div>
         </div>
-      </nav>
+      </header>
 
       {/* 主内容 */}
-      <main className="max-w-7xl mx-auto px-6 md:px-8 pt-32 pb-8">
+      <main className="max-w-7xl mx-auto px-4 md:px-6 py-6">
         <section>
           <div className="flex items-center justify-between mb-6">
             <h2 className="text-xl font-bold">最新资源</h2>
