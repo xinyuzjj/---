@@ -27,133 +27,18 @@
   ],
   "resources": [
     {
-      "id": "1",
-      "category": "study",
-      "title": "Python从入门到精通",
-      "desc": "包含Python基础教程、进阶实战项目、数据分析、机器学习等完整学习路径",
-      "quarkLink": "https://pan.quark.cn/s/example1",
-      "tags": ["Python", "编程", "入门"]
-    },
-    {
       "id": "2",
       "category": "study",
-      "title": "前端开发全套教程",
-      "desc": "HTML、CSS、JavaScript、React、Vue等前端技术栈完整学习资料",
-      "quarkLink": "https://pan.quark.cn/s/example2",
-      "baiduLink": "https://pan.baidu.com/s/example2",
-      "tags": ["前端", "JavaScript", "React"]
+      "title": "学习资源",
+      "desc": "一个学习资源合集",
+      "quarkLink": "https://pan.quark.cn/s/877de426cd70?pwd=evXC"
     },
     {
-      "id": "3",
-      "category": "study",
-      "title": "高等数学精品课程",
-      "desc": "大学数学全套视频课程，包括微积分、线性代数、概率统计",
-      "quarkLink": "https://pan.quark.cn/s/example3",
-      "tags": ["数学", "考研", "大学"]
-    },
-    {
-      "id": "4",
-      "category": "study",
-      "title": "英语学习资料合集",
-      "desc": "四六级、雅思、托福等考试资料，包含听力、阅读、写作、口语",
-      "quarkLink": "https://pan.quark.cn/s/example4",
-      "tags": ["英语", "四六级", "雅思"]
-    },
-    {
-      "id": "5",
-      "category": "ai",
-      "title": "ChatGPT使用教程",
-      "desc": "ChatGPT完整使用指南，包含提示词技巧、应用场景、API开发",
-      "quarkLink": "https://pan.quark.cn/s/example5",
-      "tags": ["AI", "ChatGPT", "教程"]
-    },
-    {
-      "id": "6",
-      "category": "ai",
-      "title": "Stable Diffusion绘画教程",
-      "desc": "AI绘画入门到精通，包含模型下载、提示词编写、插件使用",
-      "quarkLink": "https://pan.quark.cn/s/example6",
-      "tags": ["AI绘画", "StableDiffusion", "设计"]
-    },
-    {
-      "id": "7",
-      "category": "ai",
-      "title": "Midjourney提示词大全",
-      "desc": "精选1000+高质量Midjourney提示词，覆盖各种风格和场景",
-      "quarkLink": "https://pan.quark.cn/s/example7",
-      "tags": ["AI绘画", "Midjourney", "提示词"]
-    },
-    {
-      "id": "8",
-      "category": "ai",
-      "title": "AI大模型部署指南",
-      "desc": "本地部署LLaMA、Qwen等大语言模型的完整教程和工具",
-      "quarkLink": "https://pan.quark.cn/s/example8",
-      "tags": ["AI", "大模型", "部署"]
-    },
-    {
-      "id": "9",
+      "id": "1",
       "category": "game",
-      "title": "经典游戏合集",
-      "desc": "包含FC、SFC、GBA、PSP等经典平台的游戏ROM合集",
-      "quarkLink": "https://pan.quark.cn/s/example9",
-      "tags": ["游戏", "经典", "怀旧"]
-    },
-    {
-      "id": "10",
-      "category": "game",
-      "title": "游戏修改器合集",
-      "desc": "各种单机游戏的修改器、存档、MOD资源",
-      "quarkLink": "https://pan.quark.cn/s/example10",
-      "tags": ["游戏", "修改器", "MOD"]
-    },
-    {
-      "id": "11",
-      "category": "game",
-      "title": "Godot引擎教程",
-      "desc": "Godot游戏引擎从入门到精通的完整教程和项目示例",
-      "quarkLink": "https://pan.quark.cn/s/example11",
-      "tags": ["游戏开发", "Godot", "引擎"]
-    },
-    {
-      "id": "12",
-      "category": "game",
-      "title": "Unity资源包合集",
-      "desc": "Unity游戏开发常用资源包，包含模型、材质、音效等",
-      "quarkLink": "https://pan.quark.cn/s/example12",
-      "tags": ["游戏开发", "Unity", "资源"]
-    },
-    {
-      "id": "13",
-      "category": "crack",
-      "title": "Office破解工具",
-      "desc": "Office 2021/365激活工具，支持永久激活",
-      "quarkLink": "https://pan.quark.cn/s/example13",
-      "tags": ["Office", "破解", "激活"]
-    },
-    {
-      "id": "14",
-      "category": "crack",
-      "title": "Photoshop破解版",
-      "desc": "Adobe Photoshop 2024完整破解版，无需激活",
-      "quarkLink": "https://pan.quark.cn/s/example14",
-      "tags": ["PS", "设计", "破解"]
-    },
-    {
-      "id": "15",
-      "category": "crack",
-      "title": "编程软件破解合集",
-      "desc": "VSCode、PyCharm、IDEA等编程软件的破解版本",
-      "quarkLink": "https://pan.quark.cn/s/example15",
-      "tags": ["编程", "软件", "破解"]
-    },
-    {
-      "id": "16",
-      "category": "crack",
-      "title": "视频剪辑软件",
-      "desc": "Premiere Pro、After Effects等视频软件破解版",
-      "quarkLink": "https://pan.quark.cn/s/example16",
-      "tags": ["视频剪辑", "PR", "破解"]
+      "title": "游戏",
+      "desc": "一个游戏资源合集",
+      "quarkLink": "https://pan.quark.cn/s/877de426cd70?pwd=evXC"
     }
   ]
 }
