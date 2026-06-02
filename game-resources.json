@@ -1,3 +1,50 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:772a9c70d9060419d0ad90e4f1de16a529477023fd5c8192ae3230bf8ad11ecc
-size 1427
+{
+  "categories": [
+    {
+      "id": "rpg",
+      "name": "角色扮演",
+      "icon": "⚔️"
+    },
+    {
+      "id": "action",
+      "name": "动作冒险",
+      "icon": "🎯"
+    },
+    {
+      "id": "strategy",
+      "name": "策略战棋",
+      "icon": "🏰"
+    },
+    {
+      "id": "simulation",
+      "name": "模拟经营",
+      "icon": "🏠"
+    }
+  ],
+  "resources": [
+    {
+      "id": "1",
+      "category": "rpg",
+      "title": "经典RPG游戏合集",
+      "desc": "包含多款经典RPG游戏，支持多种平台",
+      "quarkLink": "https://pan.quark.cn/s/game123",
+      "tags": ["经典", "RPG"]
+    },
+    {
+      "id": "2",
+      "category": "action",
+      "title": "动作游戏资源包",
+      "desc": "包含动作游戏开发所需的素材和教程",
+      "quarkLink": "https://pan.quark.cn/s/action456",
+      "tags": ["动作", "开发"]
+    },
+    {
+      "id": "3",
+      "category": "strategy",
+      "title": "策略游戏合集",
+      "desc": "包含多款策略战棋游戏",
+      "quarkLink": "https://pan.quark.cn/s/strategy789",
+      "tags": ["策略", "战棋"]
+    }
+  ]
+}

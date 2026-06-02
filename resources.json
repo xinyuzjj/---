@@ -1,3 +1,34 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:3967884f2eeb4d7bc85c04e9de9d9e5a4c08c1d27c77aef4418cf762409bb2a9
-size 21856
+[
+  {
+    "id": "1",
+    "title": "每天拥有一款高质量开源项目 第六十四期：LocalMiniDrama",
+    "desc": "一个免费开源录屏软件",
+    "tags": ["github"],
+    "quarkLink": "https://pan.quark.cn/s/877de426cd70?pwd=evXC",
+    "baiduLink": "https://pan.baidu.com/s/123456"
+  },
+  {
+    "id": "2",
+    "title": "AI音频驱动图片",
+    "desc": "一个免费的AI音频驱动图片，可以将音频转换为图片，支持多种音频格式，操作简单，适合音乐爱好者和专业人士使用。",
+    "tags": ["github", "AI", "音频"],
+    "quarkLink": "https://pan.quark.cn/s/abcdef123456",
+    "baiduLink": ""
+  },
+  {
+    "id": "3",
+    "title": "本地离线AI音乐制作",
+    "desc": "一个免费的AI音乐制作工具，支持本地离线使用，功能强大，操作简单，适合音乐爱好者和专业人士使用。",
+    "tags": ["github", "AI", "音乐"],
+    "quarkLink": "https://pan.quark.cn/s/ghijkl789012",
+    "baiduLink": "https://pan.baidu.com/s/789012"
+  },
+  {
+    "id": "4",
+    "title": "Alist - 多存储文件列表程序",
+    "desc": "支持多种存储的文件列表程序，可统一管理阿里云盘、百度网盘、夸克网盘、OneDrive、Google Drive等各种网盘，支持在线预览、视频播放、Docker一键部署",
+    "tags": ["github", "网盘", "工具"],
+    "quarkLink": "https://github.com/AlistGo/alist",
+    "baiduLink": ""
+  }
+]

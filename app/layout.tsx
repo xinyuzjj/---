@@ -50,7 +50,7 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="zh-CN">
+    <html lang="zh-CN" suppressHydrationWarning>
       <body
         className={`${bodoniModa.variable} ${jost.variable} ${inter.variable} ${manrope.variable} ${syncopate.variable} antialiased`}
       >

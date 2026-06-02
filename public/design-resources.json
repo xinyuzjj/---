@@ -1,3 +1,62 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:0571e113a493e2303b24d7126f995248e17be58daf5ee8dca1b364f4d0be6141
-size 2548
+{
+  "categories": [
+    {
+      "id": "icon",
+      "name": "图标素材",
+      "icon": "🎨",
+      "color": "blue"
+    },
+    {
+      "id": "font",
+      "name": "字体合集",
+      "icon": "📝",
+      "color": "purple"
+    },
+    {
+      "id": "template",
+      "name": "海报模板",
+      "icon": "🖼️",
+      "color": "green"
+    },
+    {
+      "id": "ui",
+      "name": "UI组件",
+      "icon": "📱",
+      "color": "red"
+    }
+  ],
+  "resources": [
+    {
+      "id": "1",
+      "category": "icon",
+      "title": "精美图标合集",
+      "desc": "包含1000+精美图标，支持多种格式",
+      "quarkLink": "https://pan.quark.cn/s/icon123",
+      "tags": ["图标", "设计"]
+    },
+    {
+      "id": "2",
+      "category": "font",
+      "title": "中文字体合集",
+      "desc": "包含上百款精美中文字体",
+      "quarkLink": "https://pan.quark.cn/s/font456",
+      "tags": ["字体", "设计"]
+    },
+    {
+      "id": "3",
+      "category": "template",
+      "title": "海报设计模板",
+      "desc": "包含多种风格的海报模板",
+      "quarkLink": "https://pan.quark.cn/s/template789",
+      "tags": ["海报", "模板"]
+    },
+    {
+      "id": "4",
+      "category": "ui",
+      "title": "UI设计组件库",
+      "desc": "包含常用UI组件设计资源",
+      "quarkLink": "https://pan.quark.cn/s/ui012",
+      "tags": ["UI", "组件"]
+    }
+  ]
+}

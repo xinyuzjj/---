@@ -4,20 +4,32 @@ import { notFound } from 'next/navigation';
 import Link from 'next/link';
 import { ArrowLeft, Globe } from 'lucide-react';
 
-// 为静态导出生成所有可能的路径参数
-export async function generateStaticParams() {
-  const filePath = path.join(process.cwd(), 'resources.json');
-  const resources = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-  return resources.map((resource: any) => ({
+interface Resource {
+  id: string;
+  title: string;
+  desc?: string;
+  url?: string;
+  quarkLink?: string;
+  baiduLink?: string;
+}
+
+export function generateStaticParams() {
+  const filePath = path.join(process.cwd(), 'public/resources.json');
+  const resources: Resource[] = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  return resources.map((resource) => ({
     id: resource.id
   }));
 }
 
-export default async function ResourceDetail({ params }: { params: { id: string } }) {
-  // 读取资源数据
-  const filePath = path.join(process.cwd(), 'resources.json');
-  const resources = JSON.parse(fs.readFileSync(filePath, 'utf8'));
-  const item = resources.find((r: any) => r.id === params.id);
+interface PageProps {
+  params: Promise<{ id: string }>;
+}
+
+export default async function ResourceDetail({ params }: PageProps) {
+  const resolvedParams = await params;
+  const filePath = path.join(process.cwd(), 'public/resources.json');
+  const resources: Resource[] = JSON.parse(fs.readFileSync(filePath, 'utf8'));
+  const item = resources.find((r) => r.id === resolvedParams.id);
 
   if (!item) notFound();
 

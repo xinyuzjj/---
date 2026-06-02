@@ -95,9 +95,9 @@ export default function SharePage() {
                 </svg>
               </div>
               <div className="flex flex-wrap gap-2">
-                <a href="/" className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-all duration-200 whitespace-nowrap text-sm font-medium shadow-md hover:shadow-lg">
+                <Link href="/" className="px-4 py-2 rounded-lg bg-red-600 text-white hover:bg-red-700 transition-all duration-200 whitespace-nowrap text-sm font-medium shadow-md hover:shadow-lg">
                   返回首页
-                </a>
+                </Link>
               </div>
             </div>
           </div>

@@ -1,3 +1,52 @@
-version https://git-lfs.github.com/spec/v1
-oid sha256:dc5f6864f8cf13105485225bbb553a61354dfcf46e2e1fd0b12151c5ef1b330c
-size 1339
+{
+  "categories": [
+    {
+      "id": "study",
+      "name": "学习资源",
+      "icon": "📚",
+      "color": "blue"
+    },
+    {
+      "id": "ai",
+      "name": "AI资源",
+      "icon": "🤖",
+      "color": "purple"
+    },
+    {
+      "id": "game",
+      "name": "游戏资源",
+      "icon": "🎮",
+      "color": "green"
+    },
+    {
+      "id": "crack",
+      "name": "破解软件",
+      "icon": "🔓",
+      "color": "red"
+    }
+  ],
+  "resources": [
+    {
+      "id": "2",
+      "category": "study",
+      "title": "学习资源",
+      "desc": "一个学习资源合集",
+      "quarkLink": "https://pan.quark.cn/s/877de426cd70?pwd=evXC"
+    },
+    {
+      "id": "1",
+      "category": "game",
+      "title": "游戏",
+      "desc": "一个游戏资源合集",
+      "quarkLink": "https://pan.quark.cn/s/877de426cd70?pwd=evXC"
+    },
+    {
+      "id": "3",
+      "category": "study",
+      "title": "Alist - 多存储文件列表程序",
+      "desc": "一个支持多种存储的文件列表程序，可统一管理阿里云盘、百度网盘、夸克网盘、OneDrive、Google Drive等各种网盘，支持在线预览、视频播放、Docker一键部署",
+      "quarkLink": "https://github.com/AlistGo/alist",
+      "tags": ["github", "网盘", "工具"]
+    }
+  ]
+}
